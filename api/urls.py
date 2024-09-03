@@ -1,17 +1,14 @@
 from django.urls import path
-from .views import (
-    ProductListView, VariantListView, CollectionListView,
-    ProductsByCollectionView, VariantsByCollectionView, VariantsByCategoryView
-)
+from . import views
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('products/', ProductListView.as_view(), name='product-list'),
-    path('variants/', VariantListView.as_view(), name='variant-list'),
-    path('collections/', CollectionListView.as_view(), name='collection-list'),
-    path('products/by-collection/', ProductsByCollectionView.as_view(), name='products-by-collection'),
-    path('variants/by-collection/', VariantsByCollectionView.as_view(), name='variants-by-collection'),
-    path('variants/by-category/', VariantsByCategoryView.as_view(), name='variants-by-category'),
-#     path('collections/<int:collection_id>/products/', ProductsByCollectionView.as_view(), name='products-by-collection'),
-#     path('collections/<int:collection_id>/variants/', VariantsByCollectionView.as_view(), name='variants-by-collection'),
-#     path('categories/<int:category_id>/variants/', VariantsByCategoryView.as_view(), name='variants-by-category'),
+    path('categories/', views.category_list, name='category_list'), #List all the categories
+    path('categories/<int:pk>/', views.category_detail, name='category_detail'),  #List categories with specific id's
+    path('products/', views.product_list, name='product_list'), #List all the prodcuts
+    path('products/<int:pk>/', views.product_detail, name='product_detail'), #List products with specific id's
+    path('collections/', views.collection_list, name='collection_list'), #List all the collections
+    path('collections/<int:pk>/', views.collection_detail, name='collection_detail'), #List collections with specific id's
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # Get the authetication token and refresh token
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # get the authetication token using refresh token
 ]
